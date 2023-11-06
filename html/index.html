@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Teste de API</title>
+</head>
+<body>
+    <h1>Teste de Conversão Binário-Decimal e Decimal-Binário</h1>
+
+    
+    <h2>Conversão de Binário para Decimal</h2>
+    <input type="text" id="binarioInput" placeholder="Digite o número binário">
+    <button onclick="converterBinarioParaDecimal()">Converter</button>
+    <p id="resultadoBinarioParaDecimal"></p>
+
+    
+    <h2>Conversão de Decimal para Binário</h2>
+    <input type="text" id="decimalInput" placeholder="Digite o número decimal">
+    <button onclick="converterDecimalParaBinario()">Converter</button>
+    <p id="resultadoDecimalParaBinario"></p>
+
+    <script>
+        async function converterBinarioParaDecimal() {
+            const binario = document.getElementById('binarioInput').value;
+            const response = await fetch('http://localhost:5000/binario', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ binario: binario })
+            });
+
+            const data = await response.json();
+            document.getElementById('resultadoBinarioParaDecimal').innerText = `Resultado: ${data.decimal}`;
+        }
+
+        async function converterDecimalParaBinario() {
+            const decimal = document.getElementById('decimalInput').value;
+            const response = await fetch('http://localhost:5000/decimal', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ decimal: parseInt(decimal) })
+            });
+
+            const data = await response.json();
+            document.getElementById('resultadoDecimalParaBinario').innerText = `Resultado: ${data.binario}`;
+        }
+    </script>
+</body>
+</html>
